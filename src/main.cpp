@@ -211,6 +211,8 @@ void loop()
 
     // If we didn't spot a controller message on the network for x seconds we will take over control.
     // As soon as a message is spotted on the network it will be disabled again. This is controlled within processCan()
+
+    /* Auskommentiert wegen unkontrollierten Sendungen trotz angeschlossenem TAx
     if (currentMillis - controllerMessageTimer >= configuration.General.BusMessageTimeout * 1000)
     {
       // Bail out if we already set this...
@@ -220,6 +222,8 @@ void loop()
         Log.println("No other controller on the network. Enabling Override.");
       }
     }
+    */
+    OverrideControl = false; // Sicherstellen, dass nicht gesendet wird
   }
 
   //——————————————————————————————————————————————————————————————————————————————
