@@ -58,6 +58,9 @@ struct Configuration
             char StatusRequest[255];
             char Boost[255];
             char FastHeatup[255];
+            char MixedCircuitValues[255];
+            char MixedCircuitParameters[255];
+
         } Topics;
 
     } Mqtt;
@@ -66,8 +69,10 @@ struct Configuration
     {
         bool HeatingParameters;  // true
         bool WaterParameters;    // false
+        bool MixedCircuit; // false
         bool AuxiliaryParameters; // false
         bool UseAuxiliaryOutsideTempReference; //True: Use the value from "commandedValues.Heating.AuxiliaryTemperature" instead of the reading from the heating sensor.
+        
     } Features;
 
     struct General_
@@ -140,6 +145,7 @@ struct Configuration
             uint16_t Pump;
             uint16_t FeedSetpoint;
             uint16_t FeedCurrent;
+            uint16_t MixValveOpen;
             uint16_t Economy;
         } MixedCircuit;
 

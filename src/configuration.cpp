@@ -71,6 +71,8 @@ bool ReadConfiguration()
     strlcpy(configuration.Mqtt.Topics.WaterValues, MQTT_Topics["WaterValues"], sizeof(configuration.Mqtt.Topics.WaterValues));                   //"cerasmarter/water/values"
     strlcpy(configuration.Mqtt.Topics.HeatingParameters, MQTT_Topics["HeatingParameters"], sizeof(configuration.Mqtt.Topics.HeatingParameters)); //"cerasmarter/heating/parameters"
     strlcpy(configuration.Mqtt.Topics.WaterParameters, MQTT_Topics["WaterParameters"], sizeof(configuration.Mqtt.Topics.WaterParameters));       //"cerasmarter/water/parameters"
+    strlcpy(configuration.Mqtt.Topics.MixedCircuitParameters, MQTT_Topics["MixedCircuitParameters"], sizeof(configuration.Mqtt.Topics.MixedCircuitParameters)); //"cerasmarter/mixedcircuit/parameters"
+    strlcpy(configuration.Mqtt.Topics.MixedCircuitValues, MQTT_Topics["MixedCircuitValues"], sizeof(configuration.Mqtt.Topics.MixedCircuitValues)); //"cerasmarter/mixedcircuit/values"
     strlcpy(configuration.Mqtt.Topics.AuxiliaryValues, MQTT_Topics["AuxiliaryValues"], sizeof(configuration.Mqtt.Topics.AuxiliaryValues));          //"cerasmarter/auxiliary/parameters"
     strlcpy(configuration.Mqtt.Topics.Status, MQTT_Topics["Status"], sizeof(configuration.Mqtt.Topics.Status));                                  // "cerasmarter/status"
     strlcpy(configuration.Mqtt.Topics.StatusRequest, MQTT_Topics["StatusRequest"], sizeof(configuration.Mqtt.Topics.StatusRequest));             // "cerasmarter/status/get"
@@ -80,9 +82,10 @@ bool ReadConfiguration()
     JsonObject Features = doc["Features"];
     configuration.Features.HeatingParameters = Features["HeatingParameters"]; // true
     configuration.Features.WaterParameters = Features["WaterParameters"];     // false
+    configuration.Features.MixedCircuit = Features["MixedCircuit"]; // false
     configuration.Features.AuxiliaryParameters = Features["AuxiliaryValues"];   // false
-    configuration.Features.UseAuxiliaryOutsideTempReference = Features["OverrideOT"];
-
+    configuration.Features.UseAuxiliaryOutsideTempReference = Features["OverrideOT"]; // false
+    
     JsonObject TimeSettings = doc["Time"];
     strlcpy(configuration.General.Timezone, TimeSettings["Timezone"], sizeof(configuration.General.Timezone)); // true
 
@@ -143,6 +146,7 @@ bool ReadConfiguration()
     configuration.CanAddresses.MixedCircuit.Pump = convertHexString(CAN_Addresses_MixedCircuit["Pump"].as<const char *>());                 // "0x404"
     configuration.CanAddresses.MixedCircuit.FeedSetpoint = convertHexString(CAN_Addresses_MixedCircuit["FeedSetpoint"].as<const char *>()); // "0x405"
     configuration.CanAddresses.MixedCircuit.FeedCurrent = convertHexString(CAN_Addresses_MixedCircuit["FeedCurrent"].as<const char *>());   // "0x440"
+    configuration.CanAddresses.MixedCircuit.MixValveOpen = convertHexString(CAN_Addresses_MixedCircuit["MixValveOpen"].as<const char *>());   // "0x441"
     configuration.CanAddresses.MixedCircuit.Economy = convertHexString(CAN_Addresses_MixedCircuit["Economy"].as<const char *>());           // "0x407"
 
     int curSensor = 0;
@@ -227,9 +231,9 @@ void WriteConfiguration()
     JsonObject Features = doc.createNestedObject("Features");
     Features["HeatingParameters"] = configuration.Features.HeatingParameters;
     Features["WaterParameters"] = configuration.Features.WaterParameters;
+    Features["MixedCircuit"] =  configuration.Features.MixedCircuit;
     Features["AuxiliaryValues"] = configuration.Features.AuxiliaryParameters;
-    Features["OverrideOT"] = configuration.Features.UseAuxiliaryOutsideTempReference;
-
+    
     doc["Time"]["Timezone"] = configuration.General.Timezone;
 
     JsonObject General = doc.createNestedObject("General");
@@ -278,6 +282,7 @@ void WriteConfiguration()
     CAN_Addresses_MixedCircuit["Pump"] = IntToHex(configuration.CanAddresses.MixedCircuit.Pump);
     CAN_Addresses_MixedCircuit["FeedSetpoint"] = IntToHex(configuration.CanAddresses.MixedCircuit.FeedSetpoint);
     CAN_Addresses_MixedCircuit["FeedCurrent"] = IntToHex(configuration.CanAddresses.MixedCircuit.FeedCurrent);
+    CAN_Addresses_MixedCircuit["MixValveOpen"] = IntToHex(configuration.CanAddresses.MixedCircuit.MixValveOpen);
     CAN_Addresses_MixedCircuit["Economy"] = IntToHex(configuration.CanAddresses.MixedCircuit.Economy);
 
     JsonArray AuxiliarySensors_Sensors = doc["AuxiliarySensors"].createNestedArray("Sensors");

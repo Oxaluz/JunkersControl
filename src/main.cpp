@@ -338,6 +338,10 @@ void loop()
     // Publish Water Temperatures
     if (configuration.Features.WaterParameters)
       PublishWaterTemperatures();
+
+    // Publish MixedCircuit Temperatures
+    if (configuration.Features.MixedCircuit)
+      PublishMixedCircuitTemperaturesAndStatus();
   }
 
   //——————————————————————————————————————————————————————————————————————————————

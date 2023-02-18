@@ -18,12 +18,15 @@
             "Status": "cerasmarter/status",
             "StatusRequest": "cerasmarter/status/get",
             "Boost": "cerasmarter/boost/set",
-            "FastHeatup": "cerasmarter/fastheatup/set"
+            "FastHeatup": "cerasmarter/fastheatup/set",
+            "MixedCircuitValues": "cerasmarter/mixedcircuit/values",
+            "MixedCircuitParameters": "cerasmarter/mixedcircuit/parameters"
         }
     },
     "Features": {
         "HeatingParameters": true,
-        "WaterParameters": false,
+        "WaterParameters": true,
+        "MixedCircuit": true,
         "AuxiliaryValues": false,
         "OverrideOT": false
     },

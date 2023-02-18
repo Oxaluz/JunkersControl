@@ -15,7 +15,7 @@
 #endif
 //-- Set INT Pin via Build Flag
 #ifndef MCP2515_INT
-#define MCP2515_INT 17
+#define MCP2515_INT 26
 #endif
 
 
@@ -169,7 +169,7 @@ void processCan()
     // Value: Data / 2.0
     if (Message.id == configuration.CanAddresses.HotWater.CurrentTemperature)
     {
-      temp = Message.data[0] / 2.0;
+      temp = Message.data[1] / 2.0;
       ceraValues.Heating.BufferWaterTemperatureCurrent = temp;
     }
 
@@ -187,7 +187,7 @@ void processCan()
     // Value: Data / 2.0
     if (Message.id == configuration.CanAddresses.HotWater.CurrentTemperature)
     {
-      temp = Message.data[0] / 2.0;
+      temp = Message.data[1] / 2.0;
       ceraValues.Hotwater.TemperatureCurrent = temp;
     }
 
@@ -295,7 +295,7 @@ void processCan()
     // Set: Value as half-centigrade steps i.e. 45.5
     if (Message.id == configuration.CanAddresses.HotWater.SetpointTemperature)
     {
-      temp = Message.data[0] / 2.0;
+      temp = Message.data[1] / 2.0;
       ceraValues.Hotwater.SetPoint = temp;
     }
 
@@ -345,7 +345,7 @@ void processCan()
     // Value: Data / 2.0
     if (Message.id == configuration.CanAddresses.MixedCircuit.FeedSetpoint)
     {
-      temp = Message.data[0] / 2.0;
+      temp = Message.data[1] / 2.0;
       ceraValues.MixedCircuit.FeedSetpoint = temp;
     }
 
@@ -362,8 +362,17 @@ void processCan()
     // Value: Data / 2.0
     if (Message.id == configuration.CanAddresses.MixedCircuit.FeedCurrent)
     {
-      temp = Message.data[0] / 2.0;
+      temp = Message.data[1] / 2.0;
       ceraValues.MixedCircuit.FeedCurrent = temp;
+    }
+
+    //[MC] - [Controller] - Mixed-Circuit Mix Valve Open
+    // Data Type: INT
+    // Value: Data 
+    if (Message.id == configuration.CanAddresses.MixedCircuit.MixValveOpen)
+    {
+      temp = Message.data[1];
+      ceraValues.MixedCircuit.MixValveOpen = temp;
     }
   }
 }
