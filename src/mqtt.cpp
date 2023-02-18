@@ -340,7 +340,6 @@ void PublishHeatingTemperaturesAndStatus()
   jsonObj["Boost"] = boolToString(commandedValues.Heating.Boost);
   jsonObj["BoostTimeLeft"] = commandedValues.Heating.BoostTimeCountdown;
   jsonObj["FastHeatup"] = boolToString(commandedValues.Heating.FastHeatup);
-  jsonObj["MixValveOpen"] = ceraValues.MixedCircuit.MixValveOpen;
 
   // Mute Flag Set. Don't send message.
   if (MUTE_MQTT == 1)
